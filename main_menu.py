@@ -142,7 +142,7 @@ def play_game():
     word = input_box.get().upper()
     choose_word_root.destroy()
     word_chosen = True
-    if len(word) <= 0:
+    if len(word) < 3 or len(word) > 10:
         choose_word()
     else:
         game()
