@@ -73,7 +73,7 @@ def check_win():
             won = False
             break
     if won:
-        end_game("You won!")
+        end_game("You won! \nThe word was {}".format(word))
 
     if hangman_status == 11:
         end_game("You lost! \nThe word was {}".format(word))
@@ -139,7 +139,7 @@ def display_word():
 def play_game():
     global word_chosen
     global word
-    word = input_box.get()
+    word = input_box.get().upper()
     choose_word_root.destroy()
     word_chosen = True
     if len(word) <= 0:
