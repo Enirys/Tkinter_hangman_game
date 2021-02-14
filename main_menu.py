@@ -220,7 +220,7 @@ def choose_word():
 
     # Création de l'input box
     input_box = Entry(choose_word_root,bg = "white")
-    input_box.place(x = 200, y = 200)
+    input_box.place(x = 300, y = 200, width = 150, height = 20)
 
     # Création du bouton players et ajout de l'image de fond
     submit_btn = Button(choose_word_root,bd = 0,relief = "groove",compound = CENTER,bg = "#002333",fg = "white",activeforeground = "white",activebackground = "#002333", pady = 0,command = play_game)
