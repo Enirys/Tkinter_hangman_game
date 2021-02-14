@@ -10,6 +10,7 @@ replay_root = None
 hangman_status = 0
 word = "SYRINE"
 guessed = []
+stages = []
 
 screen_x = int(main_menu_root.winfo_screenwidth())
 screen_y = int(main_menu_root.winfo_screenheight())
@@ -25,8 +26,19 @@ def create_btn(root):
     btn.config(image=btn_img)
     return btn
 
-def replay_game(message):
+def replay_game():
+    replay_root.destroy()
+    guessed.clear()
+    hangman_status = 0
+    word = "SYRINE"
+    game()
+
+def quit_game():
+    replay_root.destroy()
+
+def end_game(message):
     game_root.destroy()
+    global replay_root
     replay_root = Tk()
     replay_root.geometry(geo)
     replay_root.resizable(False, False)
@@ -37,7 +49,18 @@ def replay_game(message):
 
     display_word_label = Label(replay_root,text = message,bg = "#002333",fg = "white")
     display_word_label.config(font=("Helvetica", 20))
-    display_word_label.place(x = 250, y = 155)
+    display_word_label.place(x = 250, y = 100)
+
+    replay_btn_img = ImageTk.PhotoImage(Image.open("buttons/replay_btn.png"))
+    quit_btn_img = ImageTk.PhotoImage(Image.open("buttons/quit_btn.png"))
+
+    replay_btn = Button(replay_root,bd = 0,relief = "groove",compound = CENTER,bg = "#002333",fg = "white",activeforeground = "white",activebackground = "#002333", pady = 0,command = replay_game)
+    replay_btn.config(image=replay_btn_img)
+    replay_btn.place(x = 270, y = 220)
+
+    quit_btn = Button(replay_root,bd = 0,relief = "groove",compound = CENTER,bg = "#002333",fg = "white",activeforeground = "white",activebackground = "#002333", pady = 0,command = quit_game)
+    quit_btn.config(image=quit_btn_img)
+    quit_btn.place(x = 270, y = 320)
 
     replay_root.mainloop()
 
@@ -48,10 +71,10 @@ def check_win():
             won = False
             break
     if won:
-        replay_game("You won!")
+        end_game("You won!")
 
-    if hangman_status == 6:
-        replay_game("You lost! \nThe word was {}".format(word))
+    if hangman_status == 11:
+        end_game("You lost! \nThe word was {}".format(word))
 
 def key_pressed(event):
     global hangman_status
@@ -74,12 +97,19 @@ def check_btn(m):
     guessed.append(ltr)
     if ltr not in word:
         hangman_status += 1
+    print(guessed)
+    print(hangman_status)
+    display_hangman()
     display_wordtxt = display_word()
     display_word_label = Label(game_root,text = display_wordtxt,bg = "#002333",fg = "white")
     display_word_label.config(font=("Helvetica", 20))
     display_word_label.place(x = 400, y = 200)
 
     check_win()
+
+def display_hangman():
+    hangman_label = Label(game_root,image = stages[hangman_status],bg = "#002333")
+    hangman_label.place(x = 100, y = 170)
 
 def display_word():
     display_word = ""
@@ -90,9 +120,8 @@ def display_word():
             display_word += "_ "
     return display_word
 
-def start_game():
+def game():
     global game_root
-    main_menu_root.destroy()
     game_root = Tk()
     game_root.geometry(geo)
     game_root.resizable(False, False)
@@ -102,6 +131,11 @@ def start_game():
     background_label.place(x = 0, y = 0, relwidth = 1, relheight = 1)
 
     letters = []
+
+    for i in range(12):
+        stages.append(ImageTk.PhotoImage(Image.open("hangmanstages/hangman" + str(i) + ".png")))
+
+    display_hangman()
 
     for i in range(26):
         letters.append(ImageTk.PhotoImage(Image.open("letters/" + chr (i + 97) + ".png")))
@@ -120,6 +154,10 @@ def start_game():
 
     game_root.mainloop()
 
+def start_game():
+    main_menu_root.destroy()
+    game()
+    
 def credits_menu():
     main_menu_root.destroy()
     credits_root = Tk()
