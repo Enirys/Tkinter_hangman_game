@@ -11,6 +11,9 @@ credits_root = None
 replay_root = None
 choose_word_root = None
 
+word_chosen = False
+replay = False
+
 # Variables du jeu
 hangman_status = 0
 word = "PYTHON"
@@ -134,10 +137,15 @@ def display_word():
     return display_word
 
 def play_game():
+    global word_chosen
     global word
     word = input_box.get()
     choose_word_root.destroy()
-    game()
+    word_chosen = True
+    if len(word) <= 0:
+        choose_word()
+    else:
+        game()
 
 # Fonction principale du jeu
 def game():
@@ -195,7 +203,8 @@ def player_vs_computer():
 def choose_word():
     global input_box
     global choose_word_root
-    players_root.destroy()
+    if not word_chosen:
+        players_root.destroy()
     # Création et initialisation de la fenêtre de choix
     choose_word_root = Tk()
     choose_word_root.geometry(geo)
@@ -219,7 +228,6 @@ def choose_word():
     submit_btn.place(x = 260, y = 300)
 
     choose_word_root.mainloop()
-
 
 # Mode de jeu Player vs Player
 def player_vs_player():
@@ -281,7 +289,6 @@ def credits_menu():
 
 # Création du menu start du jeu
 def main_menu():
-
     # Création et initialisation de la fenêtre start
     main_menu_root.geometry(geo)
     main_menu_root.resizable(False, False)
