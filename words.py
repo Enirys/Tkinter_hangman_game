@@ -1,0 +1,18 @@
+word_list = [
+"HELLO",
+"WORLD",
+"PYTHON",
+"PYGAME",
+"SYRINE",
+"ENIRYS",
+"MOVIE",
+"AMBITION",
+"DEVELOPER",
+"GAME",
+"TKINTER",
+"BLUE",
+"RED",
+"ORANGE",
+"INDIGO",
+"PROJECT"
+]
